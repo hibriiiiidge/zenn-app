@@ -23,7 +23,7 @@ export default {
   },
   methods: {
     async getSomething() {
-      const response = await this.$axios.$get('http://localhost:5000/')
+      const response = await this.$axios.$get('http://localhost:5000/api/v1/tasks')
       console.log(response)
     }
   },
