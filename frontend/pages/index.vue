@@ -22,8 +22,9 @@ export default {
     }
   },
   methods: {
-    getSomething() {
-      alert("Get Something!!")
+    async getSomething() {
+      const response = await this.$axios.$get('http://localhost:5000/')
+      console.log(response)
     }
   },
 }
