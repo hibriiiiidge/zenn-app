@@ -1,40 +1,31 @@
 <template>
   <div class="container">
     <div>
-      <logo />
       <h1 class="title">
-        app
+        Zenn-app
       </h1>
       <h2 class="subtitle">
-        My impressive Nuxt.js project
+        {{ subTitle }}
       </h2>
-      <div class="links">
-        <a
-          href="https://nuxtjs.org/"
-          target="_blank"
-          class="button--green"
-        >
-          Documentation
-        </a>
-        <a
-          href="https://github.com/nuxt/nuxt.js"
-          target="_blank"
-          class="button--grey"
-        >
-          GitHub
-        </a>
-      </div>
+      <button @click="getSomething">
+        取得
+      </button>
     </div>
   </div>
 </template>
 
 <script>
-import Logo from '~/components/Logo.vue'
-
 export default {
-  components: {
-    Logo
-  }
+  data() {
+    return {
+      subTitle: 'Zenn is good service!!'
+    }
+  },
+  methods: {
+    getSomething() {
+      alert("Get Something!!")
+    }
+  },
 }
 </script>
 
