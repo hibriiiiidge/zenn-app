@@ -7,6 +7,7 @@
       <h2 class="subtitle">
         {{ subTitle }}
       </h2>
+      {{ title }}
       <button @click="getSomething">
         取得
       </button>
@@ -18,13 +19,14 @@
 export default {
   data() {
     return {
+      title: "",
       subTitle: 'Zenn is good service!!'
     }
   },
   methods: {
     async getSomething() {
       const response = await this.$axios.$get('http://localhost:5000/api/v1/tasks')
-      console.log(response)
+      this.title = response.title
     }
   },
 }
