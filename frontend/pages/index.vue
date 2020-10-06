@@ -7,10 +7,13 @@
       <h2 class="subtitle">
         {{ subTitle }}
       </h2>
-      {{ title }}
       <button @click="getSomething">
-        取得
+        タスク取得
       </button>
+      <ul v-for=" task in tasks" :key="task.id">
+        <li style="text-align: left;">{{ task.title }}</li>
+      </ul>
+      {{ title }}
     </div>
   </div>
 </template>
@@ -20,13 +23,14 @@ export default {
   data() {
     return {
       title: "",
-      subTitle: 'Zenn is good service!!'
+      subTitle: 'Zenn is good service!!',
+      tasks: []
     }
   },
   methods: {
     async getSomething() {
       const response = await this.$axios.$get('http://localhost:5000/api/v1/tasks')
-      this.title = response.title
+      this.tasks = JSON.parse(response.tasks)
     }
   },
 }
