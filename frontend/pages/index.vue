@@ -13,7 +13,6 @@
       <ul v-for=" task in tasks" :key="task.id">
         <li style="text-align: left;">{{ task.title }}</li>
       </ul>
-      {{ title }}
     </div>
   </div>
 </template>
@@ -22,7 +21,6 @@
 export default {
   data() {
     return {
-      title: "",
       subTitle: 'Zenn is good service!!',
       tasks: []
     }
