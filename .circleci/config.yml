@@ -100,8 +100,8 @@ workflows:
       - test_backend:
           filters:
             branches:
-              ignore: master
+              ignore: main
       - test_frontend:
           filters:
             branches:
-              ignore: master
+              ignore: main
