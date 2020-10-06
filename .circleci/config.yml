@@ -1,0 +1,107 @@
+version: 2.1
+
+jobs:
+  test_backend:
+    docker:
+      - image: circleci/ruby:2.6.6-stretch-node
+        environment:
+          RAILS_ENV: test
+          DB_HOST: 127.0.0.1
+      - image: circleci/mysql:5.7.30
+
+    working_directory: ~/repo
+
+    steps:
+      - checkout
+
+      # gem install
+      - restore_cache:
+          keys:
+            - gem-cache-v1-{{ checksum "~/repo/backend/Gemfile.lock" }}
+            - gem-cache-v1-
+          working_directory: ~/repo/backend
+
+      - run:
+          command: |
+            gem install bundler
+            bundle config set path 'vendor/bundle'
+            bundle install --jobs=4 --retry=3
+          working_directory: ~/repo/backend
+
+      - save_cache:
+          key: gem-cache-v1-{{ checksum "~/repo/backend/Gemfile.lock" }}
+          paths:
+            - ~/repo/backend/vendor/bundle
+          working_directory: ~/repo/backend
+
+      # Database setup
+      - run:
+          command: bundle exec rails db:create
+          working_directory: ~/repo/backend
+      - run:
+          command: bundle exec rails db:migrate
+          working_directory: ~/repo/backend
+
+      # run tests!
+      - run:
+          name: create directory to store test results
+          command: mkdir /tmp/test-results
+          working_directory: ~/repo/backend
+
+      # RSpec
+      - run:
+          name: RSpec
+          command: |
+            bundle exec rspec $(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings) \
+              || (printf "====== RETRYING...\n\n\n"; bundle exec rspec --only-failures)
+          working_directory: ~/repo/backend
+
+      # collect reports
+      - store_test_results:
+          path: /tmp/test-results
+      - store_artifacts:
+          path: /tmp/test-results
+          destination: test-results
+      - store_artifacts:
+          path: /home/circleci/repo/tmp/screenshots
+
+  test_frontend:
+    docker:
+      - image: circleci/node:14.3
+        environment:
+          NODE_ENV: test
+
+    working_directory: ~/repo
+
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "~/repo/frontend/package.json" }}
+          working_directory: ~/repo/frontend
+      - run:
+          name: install-packages
+          command: npm install
+          working_directory: ~/repo/frontend
+      - save_cache:
+          paths:
+            - node_modules
+          key: v1-dependencies-{{ checksum "~/repo/frontend/package.json" }}
+          working_directory: ~/repo/frontend
+      - run:
+          name: test
+          command: npm run test
+          working_directory: ~/repo/frontend
+
+workflows:
+  version: 2
+  test:
+    jobs:
+      - test_backend:
+          filters:
+            branches:
+              ignore: master
+      - test_frontend:
+          filters:
+            branches:
+              ignore: master
