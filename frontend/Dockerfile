@@ -6,8 +6,8 @@ ENV LANG C.UTF-8
 ENV TZ Asia/Tokyo
 ENV HOST 0.0.0.0
 
-# ADD package.json /app/package.json
-# ADD package-lock.json /app/package-lock.json
+ADD package.json /app/package.json
+ADD package-lock.json /app/package-lock.json
 
 RUN apt-get update -y && \
   apt-get upgrade -y && \
@@ -18,8 +18,8 @@ RUN apt-get update -y && \
 
 ADD . /app
 
-# RUN npm run build
+RUN npm run build
 
-# EXPOSE 3000
+EXPOSE 3000
 
-# CMD ["npm", "run", "start"]
+CMD ["npm", "run", "start"]
