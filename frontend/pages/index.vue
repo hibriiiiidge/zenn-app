@@ -27,7 +27,7 @@ export default {
   },
   methods: {
     async getSomething() {
-      const response = await this.$axios.$get('http://localhost:5000/api/v1/tasks')
+      const response = await this.$axios.$get('/api/v1/tasks')
       this.tasks = JSON.parse(response.tasks)
     }
   },
