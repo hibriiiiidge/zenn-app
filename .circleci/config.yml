@@ -14,13 +14,14 @@ jobs:
     steps:
       - checkout
 
-      # gem install
+      # restore gem from cache
       - restore_cache:
           keys:
             - gem-cache-v1-{{ checksum "~/repo/backend/Gemfile.lock" }}
             - gem-cache-v1-
           working_directory: ~/repo/backend
 
+      # gem install
       - run:
           command: |
             gem install bundler
@@ -42,13 +43,11 @@ jobs:
           command: bundle exec rails db:migrate
           working_directory: ~/repo/backend
 
-      # run tests!
       - run:
           name: create directory to store test results
           command: mkdir /tmp/test-results
           working_directory: ~/repo/backend
 
-      # RSpec
       - run:
           name: RSpec
           command: |
