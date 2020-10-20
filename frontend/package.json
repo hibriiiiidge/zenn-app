@@ -12,13 +12,14 @@
     "test": "jest"
   },
   "dependencies": {
-    "@babel/plugin-transform-runtime": "^7.12.1",
     "@nuxtjs/axios": "^5.12.2",
     "nuxt": "^2.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.11.6",
+    "@babel/plugin-transform-runtime": "^7.12.1",
     "@babel/preset-env": "^7.11.5",
+    "@babel/runtime": "^7.12.1",
     "@vue/test-utils": "^1.1.0",
     "babel-core": "^7.0.0-bridge.0",
     "babel-jest": "^26.3.0",
