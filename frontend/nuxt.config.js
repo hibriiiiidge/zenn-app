@@ -27,10 +27,6 @@ export default {
   ** Plugins to load before mounting the App
   */
   plugins: [
-    {
-      src: "~/plugins/axios",
-      ssr: true,
-    }
   ],
   /*
   ** Nuxt.js dev-modules
@@ -55,5 +51,14 @@ export default {
   },
   axios: {
     baseURL: process.env.NODE_ENV === "production" ? "https://backend.hibriiiiidge.com" : "http://localhost:5000"
-  }
+  },
+  babel: {
+    presets: [
+      'es2015',
+      'stage-0',
+    ],
+    plugins: [
+      'transform-runtime'
+    ]
+  },
 }
