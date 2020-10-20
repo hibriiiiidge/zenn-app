@@ -1,5 +1,8 @@
 version: 2.1
 
+orbs:
+  aws-ecr: circleci/aws-ecr@6.12.2
+
 jobs:
   test_backend:
     docker:
@@ -92,6 +95,30 @@ jobs:
           command: npm run test
           working_directory: ~/repo/frontend
 
+  build_and_push_image_backend:
+    machine:
+      image: ubuntu-1604:201903-01
+    steps:
+      - checkout
+      - aws-ecr/build-and-push-image:
+          account-url: AWS_ACCOUNT_URL
+          repo: "zenn-app-backend"
+          region: AWS_REGION
+          tag: "${CIRCLE_SHA1}"
+          path: ./backend/
+
+  build_and_push_image_frontend:
+    machine:
+      image: ubuntu-1604:201903-01
+    steps:
+      - checkout
+      - aws-ecr/build-and-push-image:
+          account-url: AWS_ACCOUNT_URL
+          repo: "zenn-app-frontend"
+          region: AWS_REGION
+          tag: "${CIRCLE_SHA1}"
+          path: ./frontend/
+
 workflows:
   version: 2
   test:
@@ -111,6 +138,20 @@ workflows:
             branches:
               only: main
       - test_frontend:
+          filters:
+            branches:
+              only: main
+      - build_and_push_image_backend:
+          requires:
+            - test_frontend
+            - test_backend
+          filters:
+            branches:
+              only: main
+      - build_and_push_image_frontend:
+          requires:
+            - test_frontend
+            - test_backend
           filters:
             branches:
               only: main
