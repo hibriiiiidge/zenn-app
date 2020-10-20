@@ -104,3 +104,13 @@ workflows:
           filters:
             branches:
               ignore: main
+  test_and_deploy:
+    jobs:
+      - test_backend:
+          filters:
+            branches:
+              only: main
+      - test_frontend:
+          filters:
+            branches:
+              only: main
