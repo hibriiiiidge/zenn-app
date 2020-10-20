@@ -159,16 +159,17 @@ workflows:
       - aws-ecs/deploy-service-update:
           requires:
             - build_and_push_image_backend
+            - build_and_push_image_frontend
           family: "zenn-app-task-backend"
           service-name: "zenn-app-service-backend"
           cluster-name: "zenn-app-cluster"
-          container-env-var-updates: "container=zenn-app-container-backend"
           container-image-name-updates: "container=zenn-app-container-backend,tag=${CIRCLE_SHA1}"
           filters:
             branches:
               only: main
       - aws-ecs/deploy-service-update:
           requires:
+            - build_and_push_image_backend
             - build_and_push_image_frontend
           family: "zenn-app-task-frontend"
           service-name: "zenn-app-service-frontend"
