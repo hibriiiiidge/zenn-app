@@ -33,5 +33,12 @@ module App
     # Middleware like session, flash, cookies can be added back manually.
     # Skip views, helpers and assets when generating a new resource.
     config.api_only = true
+    # NOTE:
+    # development.rb に config.hosts << ".hibriiiidge.com" を書けば成功するが、
+    # production.rb だと失敗する
+    # To allow requests to app, add the following to your environment configuration:
+    # ここに config.hosts << ".hibriiiidge.com" でも失敗する
+    # config.hosts << "app"
+    # と思ったけど、config.hosts 自体書かなくて良さそう？
   end
 end

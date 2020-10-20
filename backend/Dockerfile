@@ -26,7 +26,6 @@ RUN mkdir tmp/pids
 RUN groupadd nginx
 RUN useradd -g nginx nginx
 ADD nginx/nginx.conf /etc/nginx/nginx.conf
-ADD nginx/default.conf /etc/nginx/conf.d/default.conf
 
 EXPOSE 80
 
