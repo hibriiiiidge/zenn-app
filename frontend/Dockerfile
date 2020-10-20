@@ -14,7 +14,8 @@ RUN apt-get update -y && \
   npm install npm@6.14.4 && \
   npm install ejs@3.0.1 &&\
   npm install nuxt@2.0.0 &&\
-  npm install create-nuxt-app@2.15.0
+  npm install create-nuxt-app@2.15.0 &&\
+  npm install defu
 
 ADD . /app
 
