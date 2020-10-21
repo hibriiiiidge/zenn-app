@@ -27,7 +27,6 @@ export default {
   },
   methods: {
     async getSomething() {
-      console.log(process.env.NODE_ENV)
       const response = await this.$axios.$get('/api/v1/tasks')
       this.tasks = JSON.parse(response.tasks)
     }

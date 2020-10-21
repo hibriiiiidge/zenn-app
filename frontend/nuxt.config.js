@@ -50,6 +50,6 @@ export default {
     }
   },
   axios: {
-    baseURL: process.env.NODE_ENV === "production" ? "https://backend.hibriiiiidge.com" : "http://localhost:5000"
+    baseURL: process.env.NODE_ENV === "production" ? `https://backend.hibriiiiidge.com${process.env.NODE_ENV}` : `http://localhost:5000${process.env.NODE_ENV}
   },
 }
